@@ -7,6 +7,7 @@ app/*.key
 app/*.mobileprovision
 app/*.orig.*
 app/web-build/
+.yarn
 
 # macOS
 app/.DS_Store

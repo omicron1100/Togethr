@@ -2,58 +2,58 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // var Int32 = require('mongoose-int32');
 //Create Schema
-const UserSchema = new Schema({ 
+const UserSchema = new Schema({
   UserName: {
     type: String,
-    required: true
+    required: true,
   },
   Password: {
     type: String,
-    required: true
+    required: true,
   },
   FirstName: {
     type: String,
-    required: true
+    required: true,
   },
   LastName: {
     type: String,
-    required: true
+    required: true,
   },
   DOB: {
     type: String,
-    required: false
+    required: false,
   },
   Picture: {
     type: String,
-    required: false
+    required: false,
   },
   Rating: {
     type: Number,
-    required: false
+    required: false,
   },
   Email: {
     type: String,
-    required: true
+    required: true,
   },
   Verified: {
     type: Boolean,
-    required: true
+    required: true,
   },
   Tags: {
     type: Array,
-    required: false
+    required: false,
   },
   LikedEvents: {
     type: Array,
-    required: false
+    required: false,
   },
   AttendingEvents: {
     type: Array,
-    required: false
+    required: false,
   },
   PassCode: {
     type: String,
-    required: false
-  }
+    required: false,
+  },
 });
 module.exports = User = mongoose.model("Users", UserSchema);
