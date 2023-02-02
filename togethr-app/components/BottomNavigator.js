@@ -2,11 +2,11 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import Explore from '../pages/Explore'
-import Events from '../pages/Events'
-import Likes from '../pages/Likes'
-import AddEvent from '../pages/AddEvent'
-import Profile from '../pages/Profile'
+import Explore from '../screens/Explore'
+import Events from '../screens/Events'
+import Likes from '../screens/Likes'
+import AddEvent from '../screens/AddEvent'
+import Profile from '../screens/Profile'
 const Tab = createBottomTabNavigator();
 
 function BottomNavigator() {

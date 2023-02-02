@@ -2,7 +2,6 @@ import React from 'react';
 import {View, StyleSheet, Text,Dimensions} from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 
-
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
