@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState, useContext} from "react";
 import axios from "axios";
 import {
   StyleSheet,
@@ -7,56 +7,41 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from "@expo-google-fonts/dev";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { TextInput, HelperText } from "react-native-paper";
+import { TextInput, HelperText, IconButton } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../components/AuthProvider";
 
 export default function LoginPage() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-  });
+  const {updateUserData} = useContext(AuthContext);
 
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
   }
 
-  const userBlank = () => {
-    return user == "";
-  };
-
   const [user, setUser] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [loginMessage, setLoginMessage] = React.useState("");
 
   // This is where the logic for the login function will be added
-  const login = (user, pass) => {
+  const submit = (user, pass) => {
     if (user == "" && pass == "") {
       setLoginMessage("Please enter username and password");
     } else if (user == "" && pass != "") {
       setLoginMessage("Please enter username");
     } else if (user != "" && pass == "") {
       setLoginMessage("Please enter password");
-    } else if (user == "Test" && pass == "test") { // for debugging
-      navigation.navigate("LoggedIn");
     } else {
       axios
         .post("https://togethrgroup1.herokuapp.com/api/login", {
           UserName: user,
           Password: pass,
         })
-        .then(
-          (response) => {
-            navigation.navigate("LoggedIn");
+        .then((response) => {
             console.log(response);
+            updateUserData(response.data);
           },
           (error) => {
             setLoginMessage("Incorrect Username or Password");
@@ -69,15 +54,13 @@ export default function LoginPage() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigateBack()}>
-          <Ionicons name="arrow-back" size={30} color="back" />
-        </TouchableOpacity>
-        <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>
-          Log In
-        </Text>
-        <Text style={styles.verticalDivider}></Text>
+        
+        <IconButton icon='arrow-back' onPress={() => navigateBack()} />
 
+        <Title h1 style={styles.title}>
+          Log In
+        </Title>
+        
         <TextInput
           style={{ alignSelf: "stretch" }}
           label="Username"
@@ -86,27 +69,30 @@ export default function LoginPage() {
           onChangeText={(user) => setUser(user)}
         />
 
-        <Text style={styles.inputDivider}></Text>
-
         <TextInput
           style={{ alignSelf: "stretch" }}
           secureTextEntry
-          //right={<TextInput.Icon name="eye"/>}
           label="Password"
           value={pass}
           mode="outlined"
           onChangeText={(pass) => setPass(pass)}
         />
+
         <HelperText type="error">{loginMessage}</HelperText>
 
-        <Text style={styles.inputDivider}></Text>
-
-        <TouchableOpacity
-          onPress={() => login(user, pass)}
+        <Button
+          onPress={() => submit(user, pass)}
           style={styles.loginButton}
         >
           <Text style={styles.loginButtonText}>LOG IN</Text>
-        </TouchableOpacity>
+        </Button>
+
+        <Button
+          mode="text"
+          onPress={() => {}}
+          style={{alignSelf: 'center', marginTop: 10}}
+        >Forgot Password?
+        </Button>
       </View>
     </SafeAreaView>
   );

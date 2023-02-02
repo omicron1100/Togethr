@@ -7,24 +7,10 @@ import {
   SafeAreaView,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-  Roboto_300Light,
-} from "@expo-google-fonts/dev";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 const RegisterPage3 = ({ route }) => {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-    Roboto_300Light,
-  });
-
   const firstName = route.params.firstName;
   const lastName = route.params.lastName;
   const username = route.params.username;
@@ -41,11 +27,15 @@ const RegisterPage3 = ({ route }) => {
         <TouchableOpacity onPress={() => navigateBack()}>
           <Ionicons name="arrow-back" size={30} color="back" />
         </TouchableOpacity>
+
         <Text style={styles.verticalDivider}></Text>
         <Text h1 style={styles.title}>
-          Register
+          Add Your Interests!
         </Text>
         <Text style={styles.verticalDivider}></Text>
+
+        <Tags tagList={tags} />
+        
       </View>
     </SafeAreaView>
   );

@@ -6,23 +6,11 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from "@expo-google-fonts/dev";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput, HelperText } from "react-native-paper";
 
 const RegisterPage2 = ({ route }) => {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-  });
-
   const firstName = route.params.firstName;
   const lastName = route.params.lastName;
 
@@ -94,6 +82,7 @@ const RegisterPage2 = ({ route }) => {
           error={pass == passConfirm ? false : true}
           onChangeText={(passConfirm) => setPassConfirm(passConfirm)}
         />
+
         <HelperText type="error" visible={hasErrors()}>
           Passwords do not match
         </HelperText>

@@ -6,31 +6,31 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from "@expo-google-fonts/dev";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { TextInput } from "react-native-paper";
+import { Button, HelperText, TextInput } from "react-native-paper";
+import { useForm } from "react-hook-form";
+import DatePicker from "react-native-date-picker";
 
-export default function RegisterPage() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-  });
-
+const RegisterPage = () => {
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
   }
 
+  const [fname, setFirst] = React.useState("");
+  const [lname, setLast] = React.useState("");
+  const [birthday, setBirthday] = React.useState(new Date());
+  const [registerMessage, setRegisterMessage] = React.useState("");
+  const [confirmAge, setConfirmAge] = React.useState(false);
+
   function goToNextPage(fname, lname) {
+    const age = calculateAge(birthday);
+
     if (fname == "" || lname == "") {
-      alert("Please fill in all fields");
+      setRegisterMessage("Please fill in all fields");
+    } else if (age < 18) {
+      setRegisterMessage("Must be over 18 to create an account.");
     } else {
       navigation.navigate("RegisterPage2", {
         firstName: fname,
@@ -39,12 +39,11 @@ export default function RegisterPage() {
     }
   }
 
-  const [fname, setFirst] = React.useState("");
-  const [lname, setLast] = React.useState("");
-
-  const next = (fname, lname) => {
-    alert("First: " + fname + " Last: " + lname);
-  };
+  function calculateAge(dob) {
+    var diff_ms = Date.now() - dob.getTime();
+    var age = new Date(diff_ms);
+    return age.getUTCFullYear() - 1970;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -52,6 +51,7 @@ export default function RegisterPage() {
         <TouchableOpacity onPress={() => navigateBack()}>
           <Ionicons name="arrow-back" size={30} color="back" />
         </TouchableOpacity>
+
         <Text style={styles.verticalDivider}></Text>
         <Text h1 style={styles.title}>
           Register
@@ -78,7 +78,21 @@ export default function RegisterPage() {
 
         <Text style={styles.inputDivider}></Text>
 
+        <View>
+          <Text>{birthday ? birthday.toDateString() : "Select date..."}</Text>
+          <DatePicker
+            height={200}
+            width="100%"
+            value={birthday}
+            onChange={(value) => setBirthday(value)}
+            format="mm-dd-yyyy"
+          />
+        </View>
+
+        <HelperText type="error">{registerMessage}</HelperText>
+
         <TouchableOpacity
+          //disabled = {confirmAge ? false : true}
           onPress={() => {
             goToNextPage(fname, lname);
           }}
@@ -89,7 +103,7 @@ export default function RegisterPage() {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   title: {
@@ -128,3 +142,5 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto_500Medium",
   },
 });
+
+export default RegisterPage;
